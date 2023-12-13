@@ -29,14 +29,13 @@ app.get("/api", (req, res) => {
 
 app.all("/api/gettoken/:user", async (req, res) => {
   const { user } = req.params;
-  const { groups, orgId } = req.body;
+  const { groups } = req.body;
   const data = new URLSearchParams({
     secret_key: process.env.TS_SECRET_KEY,
     username: user,
     access_level: "FULL",
     autocreate: "true",
     ...(groups ? { group_identifiers: groups } : {}),
-    ...(orgId ? { org_id: orgId} : {}),
   });
 
   try {
@@ -62,7 +61,7 @@ app.all("/api/gettoken/:user", async (req, res) => {
 
 app.all("/api/v2/gettoken/:user", async (req, res) => {
   const { user } = req.params;
-  let { groups } = req.body;
+  let { groups, orgId } = req.body;
   try {
     const userToken: any = await axios.post(
       `${TS_HOST}/api/rest/2.0/auth/token/full`,
@@ -71,6 +70,7 @@ app.all("/api/v2/gettoken/:user", async (req, res) => {
         username: user,
         auto_create: true,
         ...(groups ? { group_identifiers: groups } : {}),
+        ...(orgId ? {org_id: orgId } : {}),
       },
       {
         headers: {
