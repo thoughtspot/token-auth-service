@@ -29,13 +29,14 @@ app.get("/api", (req, res) => {
 
 app.all("/api/gettoken/:user", async (req, res) => {
   const { user } = req.params;
-  const { groups } = req.body;
+  const { groups, orgId } = req.body;
   const data = new URLSearchParams({
     secret_key: process.env.TS_SECRET_KEY,
     username: user,
     access_level: "FULL",
     autocreate: "true",
     ...(groups ? { group_identifiers: groups } : {}),
+    ...(orgId ? { org_id: orgId} : {}),
   });
 
   try {
