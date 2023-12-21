@@ -23,3 +23,4 @@ Now, you should be able to access the below endpoints:
 In the POST body, one could send the below params:
 
 - groups: string[] # Array of groupIds which will be assigned to this user. If empty, then the current groups are maintained.
+- orgId: number # Org to which current user belongs.
